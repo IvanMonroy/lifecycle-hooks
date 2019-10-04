@@ -1,0 +1,10 @@
+<div *ngIf="undefined === vehicles">
+    <span> Cargando... </span>
+  </div>
+
+  <div *ngIf="undefined !== vehicles" class="row">
+    <div *ngFor="let product of vehicles" class="col-4">
+     <span> {{ product.plate }}</span>
+    </div>
+  </div>
+  
