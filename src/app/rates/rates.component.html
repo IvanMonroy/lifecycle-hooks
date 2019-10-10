@@ -1,0 +1,21 @@
+<mat-form-field appearance="legacy">
+    <mat-label class="span_color_black">Buscar por precio</mat-label>
+    <input matInput [name]="filter" [formControl]="filter" placeholder="$" autocomplete="off">
+  </mat-form-field>
+  
+  
+  <div *ngIf="undefined === ratesFiltered">
+    <mat-progress-spinner
+    class="example-margin"
+    [color]="purple"
+    [mode]="mode"
+    [value]="value">
+</mat-progress-spinner>
+    </div>
+  
+    <div *ngIf="undefined !== ratesFiltered " class="row">
+      <div *ngFor="let product of ratesFiltered | async" class="col-4">
+       <span> {{ product.name }}</span>
+      </div>
+    </div>
+    

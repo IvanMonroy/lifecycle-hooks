@@ -1,4 +1,6 @@
+import {MatSidenav} from '@angular/material/sidenav';
 import {
+  ViewChild,
   Component,
   OnChanges,
   OnInit,
@@ -9,6 +11,7 @@ import {
   AfterViewChecked,
   OnDestroy,
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -25,38 +28,44 @@ AfterViewInit,
 AfterViewChecked,
 OnDestroy  {
 title = "App-Component";
-  data = 10;
-  constructor() {
-    console.log(`new - data is ${this.data}`);
+
+@ViewChild('sidenav', {static: false}) sidenav: MatSidenav;
+
+reason = '';
+  _LoaderService: any;
+
+close(reason: string) {
+  this.reason = reason;
+  this.sidenav.close();
+}
+
+  constructor(private router: Router) {
+   console.log(`CONSTRUCTOR`);
   }
   ngOnChanges() {
-    console.log(`ngOnChanges - data is ${this.data}`);
+   console.log(`ngOnChanges`);
   }
   ngOnInit() {
-    console.log(`ngOnInit  - data is ${this.data}`);
+   console.log(`ngOnInit `);
   }
   ngDoCheck() {
-    console.log('ngDoCheck');
+   console.log('ngDoCheck');
   }
   ngAfterContentInit() {
-    console.log('ngAfterContentInit');
+   console.log('ngAfterContentInit');
   }
   ngAfterContentChecked() {
-    console.log('ngAfterContentChecked');
+   console.log('ngAfterContentChecked');
   }
   ngAfterViewInit() {
-    console.log('ngAfterViewInit');
+   console.log('ngAfterViewInit');
   }
   ngAfterViewChecked() {
-    console.log('ngAfterViewChecked');
+   console.log('ngAfterViewChecked');
   }
   ngOnDestroy() {
-    console.log('ngOnDestroy');
+   console.log('ngOnDestroy');
   }
-  addNumber(): void {
-    this.data += 10;
-  }
-  deleteNumber(): void {
-    this.data -= 10;
-  }
+
+
 }

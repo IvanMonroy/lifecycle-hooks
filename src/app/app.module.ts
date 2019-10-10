@@ -10,15 +10,22 @@ import { FormsModule } from '@angular/forms';
 import {MatSnackBarModule, MatInputModule } from "@angular/material";
 import { MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
-import {MatButtonModule,MatCheckboxModule,MatToolbarModule,MatProgressSpinnerModule,MatCardModule, MatIconModule, MatDialogModule } from '@angular/material';
+import {MatButtonModule,MatCheckboxModule,MatToolbarModule,MatProgressSpinnerModule,MatCardModule, MatIconModule, MatDialogModule, MatSidenavModule, MatListModule } from '@angular/material';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { AppRoutingModule } from './app-routing.module';
-import { GlobalThingsService } from './services/global/global-things.service'
+import { GlobalThingsService } from './services/global/global-things.service';
+import { RatesComponent } from './rates/rates.component';
+import { EntriesComponent } from './entries/entries.component';
+import { ExitsComponent } from './exits/exits.component'
+import {MatSidenav} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VehicleComponent
+    VehicleComponent,
+    RatesComponent,
+    EntriesComponent,
+    ExitsComponent
   ],
   imports: [
  
@@ -39,7 +46,9 @@ import { GlobalThingsService } from './services/global/global-things.service'
     MatCardModule,
     MatIconModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    MatListModule
   ],
   providers: [GlobalThingsService],
   bootstrap: [AppComponent]

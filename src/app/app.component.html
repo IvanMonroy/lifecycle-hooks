@@ -1,3 +1,20 @@
+<mat-sidenav-container
+    class="example-container" (backdropClick)="close('backdrop')" >
+  <mat-sidenav #sidenav (click)="sidenav.toggle()" (keydown.escape)="close('escape')" disableClose>
+    <p><button mat-button style="background-color: #303030;" (click)="close('toggle button')">Ocultar</button></p>
+    <p><button mat-button [routerLink]="'/vehicles'">Vehículos</button></p>
+    <p><button mat-button [routerLink]="'/rates'">Tarifas</button></p>
+    <p><button mat-button [routerLink]="'/entries'">Entradas</button></p>
+    <p><button mat-button [routerLink]="'/exits'">Salidas</button></p>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <p><button mat-button (click)="sidenav.open()">Menú</button></p>
 <router-outlet>
     
 </router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
