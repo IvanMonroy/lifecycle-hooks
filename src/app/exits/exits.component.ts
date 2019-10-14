@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy, SimpleChanges, Input } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, SubscriptionLike } from 'rxjs';
 import { GlobalThingsService } from '../services/global/global-things.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatRadioChange } from '@angular/material';
@@ -20,7 +20,7 @@ AfterViewInit,
 AfterViewChecked,
 OnDestroy {
   title = 'app';
-  exits: Observable<any[]>;
+  exits: any[];
   exitsFiltered: Observable<any[]>;
   filter: FormControl;
   filter$: Observable<string>;
@@ -28,11 +28,14 @@ OnDestroy {
   color = 'primary';
   mode = 'indeterminate';
   value = 50;
-  
+  suscription: SubscriptionLike;
   constructor( 
     private globalService: GlobalThingsService
     ) {
-      this.exits =this.globalService.GetAllModel(this.model);
+      this.suscription = this.globalService.GetAllModel(this.model).subscribe((data: any[]) =>{
+        this.exits = data
+      });
+      console.log(this.suscription.closed);
       this.filter = new FormControl('');
       this.filter$ = this.filter.valueChanges.pipe(startWith(''));
       this.exitsFiltered = combineLatest(this.exits, this.filter$).pipe(
@@ -65,7 +68,8 @@ OnDestroy {
     //  console.log('ngAfterViewChecked');
     }
     ngOnDestroy() {
-     // console.log('ngOnDestroy');
+      this.suscription.unsubscribe();
+      console.log(this.suscription.closed);
     }
     getExits(){
       return this.globalService.GetAllModel(this.model).subscribe(

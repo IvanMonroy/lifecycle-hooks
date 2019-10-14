@@ -53,7 +53,6 @@ OnDestroy {
      console.log(this.vehicles)
 
      document.title = 'Vehículos';
-     console.log(this.name);
 
     }
   ngOnChanges(){
