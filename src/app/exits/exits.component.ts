@@ -33,9 +33,9 @@ OnDestroy {
     private globalService: GlobalThingsService
     ) {
       this.suscription = this.globalService.GetAllModel(this.model).subscribe((data: any[]) =>{
-        this.exits = data
+        this.exits = data['data'];
       });
-      console.log(this.suscription.closed);
+      console.log("Subscription rates: " + this.suscription.closed);
       this.filter = new FormControl('');
       this.filter$ = this.filter.valueChanges.pipe(startWith(''));
       this.exitsFiltered = combineLatest(this.exits, this.filter$).pipe(

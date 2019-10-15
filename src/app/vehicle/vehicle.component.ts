@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy, SimpleChanges, Input } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, SubscriptionLike } from 'rxjs';
 import { GlobalThingsService } from '../services/global/global-things.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatRadioChange } from '@angular/material';
@@ -30,7 +30,7 @@ AfterViewChecked,
 OnDestroy {
   @Input() name: string;
   title = 'app';
-  vehicles: Observable<any[]>;
+  vehicles: any[];
   vehiclesFiltered: Observable<any[]>;
   filter: FormControl;
   filter$: Observable<string>;
@@ -38,19 +38,22 @@ OnDestroy {
   color = 'primary';
   mode = 'indeterminate';
   value = 50;
-  
+  subscription: SubscriptionLike;
   constructor( 
     private globalService: GlobalThingsService,
     private http: HttpClient,
     
     ) {  
-     this.vehicles =this.globalService.GetAllModel(this.model);
+     this.subscription = this.globalService.GetAllModel(this.model).subscribe((data: any[]) =>{
+      this.vehicles = data['data'];
+     });
      this.filter = new FormControl('');
      this.filter$ = this.filter.valueChanges.pipe(startWith(''));
      this.vehiclesFiltered = combineLatest(this.vehicles, this.filter$).pipe(
        map(([vehicles, filterString]) => vehicles['data'].filter(vehicle => vehicle.plate.indexOf(filterString) !== -1))
      );
-     console.log(this.vehicles)
+     console.log("Subscription vehicles: " + this.subscription.closed);
+     console.log(this.vehicles);
 
      document.title = 'Vehículos';
 
@@ -60,7 +63,7 @@ OnDestroy {
   }
   
   ngOnInit() {
-   this.getVehicles();
+   //this.getVehicles();
   }
 
   getVehicles(){
@@ -87,7 +90,8 @@ OnDestroy {
   //  console.log('ngAfterViewChecked');
   }
   ngOnDestroy() {
-   // console.log('ngOnDestroy');
+   this.subscription.unsubscribe();
+   console.log(this.subscription.closed);
   }
 
 }
