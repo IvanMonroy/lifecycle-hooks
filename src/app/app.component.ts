@@ -11,6 +11,7 @@ import {
   AfterViewChecked,
   OnDestroy,
 } from '@angular/core';
+import {SwUpdate} from "@angular/service-worker";
 import { Router } from '@angular/router';
 
 @Component({
@@ -39,14 +40,21 @@ close(reason: string) {
   this.sidenav.close();
 }
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private swUpdate: SwUpdate) {
    console.log(`CONSTRUCTOR`);
   }
   ngOnChanges() {
    console.log(`ngOnChanges`);
   }
   ngOnInit() {
-   console.log(`ngOnInit `);
+   if(this.swUpdate.isEnabled){
+  this.swUpdate.available.subscribe(() => {
+    if(confirm("Nueva versión disponible, desea cargarla?")){
+      window.location.reload();
+    }
+  });
+  }
   }
   ngDoCheck() {
    console.log('ngDoCheck');

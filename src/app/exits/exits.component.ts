@@ -20,7 +20,7 @@ AfterViewInit,
 AfterViewChecked,
 OnDestroy {
   title = 'app';
-  exits: any[];
+  exits: Observable<any[]>;
   exitsFiltered: Observable<any[]>;
   filter: FormControl;
   filter$: Observable<string>;
@@ -32,17 +32,15 @@ OnDestroy {
   constructor( 
     private globalService: GlobalThingsService
     ) {
-      this.suscription = this.globalService.GetAllModel(this.model).subscribe((data: any[]) =>{
-        this.exits = data['data'];
-      });
-      console.log("Subscription rates: " + this.suscription.closed);
+      this.exits = this.globalService.GetAllModel(this.model)
       this.filter = new FormControl('');
       this.filter$ = this.filter.valueChanges.pipe(startWith(''));
       this.exitsFiltered = combineLatest(this.exits, this.filter$).pipe(
         map(([exits, filterString]) => exits['data'].filter(exit => (exit.entry_id.toString()).indexOf(filterString) !== -1))
       );
-      console.log(this.exits)
- 
+
+      this.suscription = this.exits.subscribe();
+      console.log("Subscription rates: " + this.suscription.closed);
       document.title = 'Salidas';
      }
 
@@ -71,11 +69,4 @@ OnDestroy {
       this.suscription.unsubscribe();
       console.log(this.suscription.closed);
     }
-    getExits(){
-      return this.globalService.GetAllModel(this.model).subscribe(
-        exits => {
-          this.exits = exits['data'];
-  
-        }
-      )};
 }

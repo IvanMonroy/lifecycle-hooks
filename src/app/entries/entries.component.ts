@@ -21,7 +21,7 @@ AfterViewInit,
 AfterViewChecked,
 OnDestroy {
   title = 'app';
-  entries: any[];
+  entries: Observable<any[]>;
   entriesFiltered: Observable<any[]>;
   filter: FormControl;
   filter$: Observable<string>;
@@ -33,49 +33,33 @@ OnDestroy {
   constructor( 
     private globalService: GlobalThingsService
     ) {
-      this.subscription =this.globalService.GetAllModel(this.model).subscribe((data: any[]) =>{
-        this.entries = data['data'];
-      });
+      this.entries =this.globalService.GetAllModel(this.model)
       this.filter = new FormControl('');
       this.filter$ = this.filter.valueChanges.pipe(startWith(''));
       this.entriesFiltered = combineLatest(this.entries, this.filter$).pipe(
         map(([entries, filterString]) => entries['data'].filter(entrie => entrie.plate.indexOf(filterString) !== -1))
       );
-      console.log(this.entries)
- 
+      this.subscription = this.entries.subscribe();
+      console.log("Subscription Entries" + this.subscription.closed)
       document.title = 'Entradas Registradas';
      }
 
   ngOnChanges(){
-    // console.log('ngDoCheck');
    }
    ngOnInit() {
-     // console.log('ngDoCheck');
    }
    ngDoCheck() {
-     // console.log('ngDoCheck');
     }
     ngAfterContentInit() {
-    //  console.log('ngAfterContentInit');
     }
     ngAfterContentChecked() {
-      //console.log('ngAfterContentChecked');
     }
     ngAfterViewInit() {
-     // console.log('ngAfterViewInit');
     }
     ngAfterViewChecked() {
-    //  console.log('ngAfterViewChecked');
     }
     ngOnDestroy() {
     this.subscription.unsubscribe();
     console.log(this.subscription.closed);
     }
-    getEntries(){
-      return this.globalService.GetAllModel(this.model).subscribe(
-        entrie => {
-          this.entries = entrie['data'];
-  
-        }
-      )};
 }

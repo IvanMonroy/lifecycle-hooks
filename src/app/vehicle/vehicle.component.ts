@@ -15,22 +15,20 @@ const httpOptions = {
 
 @Component({
   selector: 'app-vehicle',
-  inputs: ['name'],
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.scss']
 })
 export class VehicleComponent implements
-OnChanges,
-OnInit,
-DoCheck,
-AfterContentInit,
-AfterContentChecked,
-AfterViewInit,
-AfterViewChecked,
-OnDestroy {
-  @Input() name: string;
+  OnChanges,
+  OnInit,
+  DoCheck,
+  AfterContentInit,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy {
   title = 'app';
-  vehicles: any[];
+  vehicles:Observable<any[]>;
   vehiclesFiltered: Observable<any[]>;
   filter: FormControl;
   filter$: Observable<string>;
@@ -39,59 +37,43 @@ OnDestroy {
   mode = 'indeterminate';
   value = 50;
   subscription: SubscriptionLike;
-  constructor( 
+  @Input("dataentry") dataentry: any;
+
+  constructor(
     private globalService: GlobalThingsService,
     private http: HttpClient,
-    
-    ) {  
-     this.subscription = this.globalService.GetAllModel(this.model).subscribe((data: any[]) =>{
-      this.vehicles = data['data'];
-     });
-     this.filter = new FormControl('');
-     this.filter$ = this.filter.valueChanges.pipe(startWith(''));
+
+  ) {
+    this.vehicles = this.globalService.GetAllModel(this.model)
+     console.log(this.vehicles);
+     this.vehiclesFiltered =  this.globalService.GetAllModel(this.model)
+    this.filter = new FormControl('');
+    this.filter$ = this.filter.valueChanges.pipe(startWith(''));
      this.vehiclesFiltered = combineLatest(this.vehicles, this.filter$).pipe(
        map(([vehicles, filterString]) => vehicles['data'].filter(vehicle => vehicle.plate.indexOf(filterString) !== -1))
-     );
-     console.log("Subscription vehicles: " + this.subscription.closed);
-     console.log(this.vehicles);
+     )
+     this.subscription = this.vehicles.subscribe()
+    console.log("Subscription vehicles: " + this.subscription.closed);
+    document.title = 'Vehículos';
 
-     document.title = 'Vehículos';
-
-    }
-  ngOnChanges(){
-
+     }
+  ngOnChanges() {
   }
-  
   ngOnInit() {
-   //this.getVehicles();
-  }
-
-  getVehicles(){
-    return this.globalService.GetAllModel(this.model).subscribe(
-      product => {
-        this.vehicles = product['data'];
-
-      }
-    )
   }
   ngDoCheck() {
-   // console.log('ngDoCheck');
   }
   ngAfterContentInit() {
-  //  console.log('ngAfterContentInit');
   }
   ngAfterContentChecked() {
-    //console.log('ngAfterContentChecked');
   }
   ngAfterViewInit() {
-   // console.log('ngAfterViewInit');
   }
   ngAfterViewChecked() {
-  //  console.log('ngAfterViewChecked');
   }
   ngOnDestroy() {
-   this.subscription.unsubscribe();
-   console.log(this.subscription.closed);
+    this.subscription.unsubscribe();
+    console.log(this.subscription.closed);
   }
 
 }

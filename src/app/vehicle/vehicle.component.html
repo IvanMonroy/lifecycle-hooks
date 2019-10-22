@@ -1,13 +1,13 @@
 <mat-form-field appearance="legacy">
   <mat-label class="span_color_black">Buscar por placa</mat-label>
-  <input matInput [name]="filter" [formControl]="filter" placeholder="AAA-123" autocomplete="off">
+  <input matInput  placeholder="AAA-123" autocomplete="off">
 </mat-form-field>
 
 
 <div *ngIf="undefined === vehiclesFiltered">
   <mat-progress-spinner
   class="example-margin"
-  [color]="purple"
+
   [mode]="mode"
   [value]="value">
 </mat-progress-spinner>

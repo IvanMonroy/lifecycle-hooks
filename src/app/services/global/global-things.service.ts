@@ -16,7 +16,7 @@ export class GlobalThingsService {
   // Http Headers
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     })
   }
 

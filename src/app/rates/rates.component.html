@@ -3,19 +3,21 @@
     <input matInput [name]="filter" [formControl]="filter" placeholder="$" autocomplete="off">
   </mat-form-field>
   
-  
-  <div *ngIf="undefined === ratesFiltered">
-    <mat-progress-spinner
-    class="example-margin"
-    [color]="purple"
-    [mode]="mode"
-    [value]="value">
-</mat-progress-spinner>
-    </div>
-  
-    <div *ngIf="undefined !== ratesFiltered " class="row">
-      <div *ngFor="let product of ratesFiltered | async" class="col-4">
-       <span> {{ product.name }}</span>
-      </div>
-    </div>
+    <div *ngIf="undefined === ratesFiltered">
+      <mat-progress-spinner
+      class="example-margin"
     
+      [mode]="mode"
+      [value]="value">
+    </mat-progress-spinner>
+      </div>  
+      <div *ngIf="undefined !== ratesFiltered" class="row">
+          <mat-list>
+              <h3 mat-subheader>Tarifas </h3>
+              <mat-list-item *ngFor="let product of ratesFiltered | async">
+                <mat-icon mat-list-icon>money</mat-icon>
+                <h4 class="main_data" mat-line>{{product.name}}</h4>
+                <p mat-line> {{product.description + ', Precio: ' + product.value}} </p>
+              </mat-list-item>
+            </mat-list>
+    </div>
