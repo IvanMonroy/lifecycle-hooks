@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import {MatSnackBarModule, MatInputModule } from "@angular/material";
 import { MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
-import { MaterialModule } from './material.module';
 import {MatButtonModule,MatCheckboxModule,MatToolbarModule,MatProgressSpinnerModule,MatCardModule, MatIconModule, MatDialogModule, MatSidenavModule, MatListModule } from '@angular/material';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -52,7 +51,6 @@ import { environment } from '../environments/environment';
     MatSidenavModule,
     BrowserAnimationsModule,
     MatListModule,
-    MaterialModule,
     ServiceWorkerModule.register('ngsw-worker.js')
   ],
   providers: [GlobalThingsService],

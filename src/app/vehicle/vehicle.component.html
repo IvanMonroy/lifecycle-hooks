@@ -1,6 +1,6 @@
 <mat-form-field appearance="legacy">
   <mat-label class="span_color_black">Buscar por placa</mat-label>
-  <input matInput  placeholder="AAA-123" autocomplete="off">
+  <input matInput [name]="filter" [formControl]="filter"   placeholder="AAA-123" autocomplete="off">
 </mat-form-field>
 
 
