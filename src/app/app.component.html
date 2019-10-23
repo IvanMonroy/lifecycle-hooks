@@ -1,17 +1,24 @@
-<mat-sidenav-container
-    class="example-container" (backdropClick)="close('backdrop')" >
-  <mat-sidenav #sidenav (click)="sidenav.toggle()" (keydown.escape)="close('escape')" disableClose>
-    <p><button mat-button style="background-color: #303030;" (click)="close('toggle button')">Ocultar</button></p>
-    <p><button mat-button [routerLink]="'/vehicles'">Vehículos</button></p>
-    <p><button mat-button [routerLink]="'/rates'">Tarifas</button></p>
-    <p><button mat-button [routerLink]="'/entries'">Entradas</button></p>
-    <p><button mat-button [routerLink]="'/exits'">Salidas</button></p>
-  </mat-sidenav>
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" >
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">IHR Parking</h1>
+  </mat-toolbar>
 
-  <mat-sidenav-content>
-    <p><button mat-button (click)="sidenav.open()">Menú</button></p>
-<router-outlet >
-</router-outlet>
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56">
+      <mat-nav-list>
+          <p><button mat-button [routerLink]="'/vehicles'">Vehículos</button></p>
+          <p><button mat-button [routerLink]="'/rates'">Tarifas</button></p>
+          <p><button mat-button [routerLink]="'/entries'">Entradas</button></p>
+          <p><button mat-button [routerLink]="'/exits'">Salidas</button></p>      </mat-nav-list>
+    </mat-sidenav>
 
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <mat-sidenav-content>
+        <router-outlet>
+        </router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

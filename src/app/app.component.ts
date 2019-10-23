@@ -1,4 +1,4 @@
-import {MatSidenav} from '@angular/material/sidenav';
+import { MatSidenav } from '@angular/material/sidenav';
 import {
   ViewChild,
   Component,
@@ -10,9 +10,11 @@ import {
   AfterViewInit,
   AfterViewChecked,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
-import {SwUpdate} from "@angular/service-worker";
+import { SwUpdate } from "@angular/service-worker";
 import { Router } from '@angular/router';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -20,60 +22,65 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements
-OnChanges,
-OnInit,
-DoCheck,
-AfterContentInit,
-AfterContentChecked,
-AfterViewInit,
-AfterViewChecked,
-OnDestroy  {
-title = "App-Component";
+  OnChanges,
+  OnInit,
+  DoCheck,
+  AfterContentInit,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy {
+  title = "App-Component";
 
-@ViewChild('sidenav', {static: false}) sidenav: MatSidenav;
+  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
 
-reason = '';
+  reason = '';
   _LoaderService: any;
 
-close(reason: string) {
-  this.reason = reason;
-  this.sidenav.close();
-}
+  close(reason: string) {
+    this.reason = reason;
+    this.sidenav.close();
+  }
 
   constructor(private router: Router,
+    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private swUpdate: SwUpdate) {
-   console.log(`CONSTRUCTOR`);
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+    console.log(`CONSTRUCTOR`);
   }
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
   ngOnChanges() {
-   console.log(`ngOnChanges`);
+    console.log(`ngOnChanges`);
   }
   ngOnInit() {
-   if(this.swUpdate.isEnabled){
-  this.swUpdate.available.subscribe(() => {
-    if(confirm("Nueva versión disponible, desea cargarla?")){
-      window.location.reload();
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.available.subscribe(() => {
+        if (confirm("Nueva versión disponible, desea cargarla?")) {
+          window.location.reload();
+        }
+      });
     }
-  });
-  }
   }
   ngDoCheck() {
-   console.log('ngDoCheck');
+    console.log('ngDoCheck');
   }
   ngAfterContentInit() {
-   console.log('ngAfterContentInit');
+    console.log('ngAfterContentInit');
   }
   ngAfterContentChecked() {
-   console.log('ngAfterContentChecked');
+    console.log('ngAfterContentChecked');
   }
   ngAfterViewInit() {
-   console.log('ngAfterViewInit');
+    console.log('ngAfterViewInit');
   }
   ngAfterViewChecked() {
-   console.log('ngAfterViewChecked');
+    console.log('ngAfterViewChecked');
   }
-  ngOnDestroy() {
-   console.log('ngOnDestroy');
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
-
-
 }

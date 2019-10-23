@@ -24,6 +24,7 @@
     "@angular/router": "~8.2.9",
     "@angular/service-worker": "~8.2.9",
     "body-parser": "*",
+    "bootstrap": "^4.3.1",
     "express": "*",
     "hammerjs": "^2.0.8",
     "rxjs": "^6.4.0",

@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import {MatSnackBarModule, MatInputModule } from "@angular/material";
 import { MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
-import {MatButtonModule,MatCheckboxModule,MatToolbarModule,MatProgressSpinnerModule,MatCardModule, MatIconModule, MatDialogModule, MatSidenavModule, MatListModule } from '@angular/material';
+import {MatButtonModule,MatCheckboxModule,MatToolbarModule,MatProgressSpinnerModule,MatCardModule, MatIconModule, MatDialogModule, MatSidenavModule, MatListModule, MatGridListModule } from '@angular/material';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalThingsService } from './services/global/global-things.service';
@@ -51,6 +51,7 @@ import { environment } from '../environments/environment';
     MatSidenavModule,
     BrowserAnimationsModule,
     MatListModule,
+    MatGridListModule,
     ServiceWorkerModule.register('ngsw-worker.js')
   ],
   providers: [GlobalThingsService],
